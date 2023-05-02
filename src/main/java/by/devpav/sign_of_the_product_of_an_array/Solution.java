@@ -10,7 +10,18 @@ public class Solution {
             val = val * ((num < 0) ? (-1) : 1);
         }
 
-        return val < 0 ? -1 : 1;
+        return val;
+    }
+
+    public int arraySignCount(int[] nums) {
+        int i = 0;
+
+        for (int num : nums) {
+            if (num == 0) return 0;
+            if (num < 0) i++;
+        }
+
+        return i % 2 != 0 ? -1 : 1;
     }
 
 }
