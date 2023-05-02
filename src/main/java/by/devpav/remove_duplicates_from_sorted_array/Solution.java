@@ -1,4 +1,4 @@
-package by.devpav.Remove_Duplicates_from_Sorted_Array;
+package by.devpav.remove_duplicates_from_sorted_array;
 
 public class Solution {
 
