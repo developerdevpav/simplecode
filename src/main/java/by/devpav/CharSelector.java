@@ -1,18 +1,12 @@
 package by.devpav;
 
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CharSelector {
 
-    public static List<Map.Entry<Character, String>> main(String[] args) {
-
+    public Map<Character, String> select(char[] characters) {
         final var map = new HashMap<Character, String>();
-
-        final var characters = new char[] { 'a', 'b', 'v', 'c', 'd', 'a', 's' };
 
         for (int i = 0; i < characters.length - 1; i++) {
             final var character = characters[i];
@@ -32,9 +26,7 @@ public class CharSelector {
             }
         }
 
-        return map.entrySet().stream()
-                .sorted(Comparator.comparing(it -> it.getValue().length()))
-                .collect(Collectors.toList());
+        return map;
     }
 
 }
