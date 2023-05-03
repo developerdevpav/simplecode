@@ -2,84 +2,79 @@ package by.devpav.add_binary;
 
 public class Solution {
 
+    public static final int[][] SUM_BINARY = new int[2][2];
+
+    static {
+        SUM_BINARY[0][0] = 0;
+        SUM_BINARY[0][1] = 1;
+        SUM_BINARY[1][0] = 1;
+        SUM_BINARY[1][1] = 10;
+    }
 
     public String addSimpleBinary(String a, String b) {
-        final int value = toDecimal(a) + toDecimal(b);
-
-        return toBinary(value);
+        return (a.length() > b.length())
+                ? binaryPlus(b, a)
+                : binaryPlus(a, b);
     }
 
-    private String toBinary(final int value) {
-        if (value == 0) {
-            return "0";
-        }
+    private String binaryPlus(final String min, final String max) {
+        int[] result = new int[max.length()];
 
-        int remains = value;
+        int i = 0;
 
-        final var stringBuilder = new StringBuilder();
+        int remains = 0;
 
-        int dwr;
-        while (remains >= 2) {
-            dwr = remains % 2;
-            remains = remains / 2;
+        while ((max.length() - 1) - i >= 0) {
+            int first = Character.getNumericValue(max.charAt((max.length() - 1) - i));
 
-            stringBuilder.append(dwr);
-        };
+            int index = (min.length() - 1) - i;
 
-        stringBuilder.append(remains % 2);
+            int second = index >= 0 ? Character.getNumericValue(min.charAt(index)) : 0;
 
-        return stringBuilder.reverse().toString();
-    }
+            int sum = SUM_BINARY[first][second] + remains;
 
-    private int toDecimal(final String content) {
-        int result = 0;
-
-        final char[] chars = reverse(content.toCharArray());
-
-        for (int i = 0; i < chars.length; i++) {
-            final var number = Integer.parseInt(String.valueOf(chars[i]));
-
-            if (number != 0) {
-                final int pow = pow(2, i);
-                result += (number * pow);
+            if (sum > 1 && sum < 10) {
+                sum = 0;
             }
+
+            final String s = String.valueOf(sum);
+            int res = Character.getNumericValue(s.charAt(s.length() - 1));
+
+            remains = SUM_BINARY[first][second] + remains >= 2 ? 1 : 0;
+
+            result[i++] = res;
         }
 
-        return result;
+        if (remains > 0) {
+            int[] tmp = new int[result.length + 1];
+            System.arraycopy(result, 0, tmp, 0, result.length);
+            tmp[tmp.length - 1] = remains;
+            result = tmp;
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int[] reverseResult = reverse(result);
+        for (final int num : reverseResult) {
+            stringBuilder.append(num);
+        }
+
+        return stringBuilder.toString();
     }
 
-    public char[] reverse(final char[] chars) {
-        int length = chars.length;
+    public int[] reverse(final int[] nums) {
+        int length = nums.length;
 
         if (length == 0 || length == 1) {
-            return chars;
+            return nums;
         }
 
         for (int i = 0; length - i > i; i++) {
-            char tmp = chars[i];
-            chars[i] = chars[length - 1 - i];
-            chars[length - 1 - i] = tmp;
+            int tmp = nums[i];
+            nums[i] = nums[length - 1 - i];
+            nums[length - 1 - i] = tmp;
         }
 
-        return chars;
+        return nums;
     }
-
-    private int pow(final int number, final int degree) {
-        if (degree == 0) {
-            return 1;
-        }
-
-        if (degree == 1) {
-            return number;
-        }
-
-        int result = number;
-
-        for (int i = 0; i < degree - 1; i++) {
-            result *= 2;
-        }
-
-        return result;
-    }
-
 }
