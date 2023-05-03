@@ -9,7 +9,7 @@ class SolutionTest {
 
     @Test
     void addBinaryWhenSimple() {
-        final var binary = SOLUTION.addSimpleBinary("1111101010", "1000");
+        final var binary = SOLUTION.addBinary("1111101010", "1000");
 
         Assertions.assertEquals("1111110010", binary);
     }
